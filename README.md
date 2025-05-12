@@ -15,10 +15,19 @@ arXiv の論文を取得し、Gemini でフィルタリング・翻訳した上�
 
 ```bash
 # 環境構築
+# 方法1: conda を使用する場合
 conda create -n arxiv-rss python=3.12 && conda activate arxiv-rss
 
+# 方法2: venv を使用する場合
+python -m venv .venv && source .venv/bin/activate  # Linux/macOS
+# または
+python -m venv .venv && .venv\Scripts\activate     # Windows
+
+# uv のインストール (https://github.com/astral-sh/uv)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
 # 依存パッケージのインストール
-pip install -r requirements.txt
+uv pip install -r requirements.txt
 
 # 環境変数の設定
 # .env.example をコピーして .env を作成し、GEMINI_API_KEY を設定

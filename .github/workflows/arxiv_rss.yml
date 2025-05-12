@@ -18,10 +18,15 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-
+          
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+          
       - name: Install deps
         run: |
-          python -m pip install -r requirements-lock.txt
+          uv pip install -r requirements-lock.txt
 
       - name: Run generator
         env:
