@@ -31,6 +31,7 @@ packages = ["src"]
 dev = [
     "jupyter>=1.1.1",
     "ruff>=0.11.10",
+    "pre-commit",
 ]
 
 [tool.ruff]
