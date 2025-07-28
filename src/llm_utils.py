@@ -1,7 +1,6 @@
 import json
 import logging
 import os
-import re
 import time
 
 from dotenv import load_dotenv
@@ -27,9 +26,7 @@ def ask_gemini(prompt: str, model: str) -> str:
     for _ in range(10):
         try:
             res = _client.models.generate_content(
-                model=model,
-                contents=prompt,
-                config={"temperature": 0.0}
+                model=model, contents=prompt, config={"temperature": 0.0}
             )
             return res.text.strip()
         except google.genai.errors.APIError as e:
@@ -38,9 +35,11 @@ def ask_gemini(prompt: str, model: str) -> str:
                 delay = 61
                 if e.code == 429:
                     try:
-                        delay = int(e.details["error"]["details"][-1]["retryDelay"][:-1])+1
+                        delay = int(e.details["error"]["details"][-1]["retryDelay"][:-1]) + 1
                     except Exception as e2:
-                        logging.warning(f"Failed to parse retry delay: {e2}. Using default {delay} seconds.")
+                        logging.warning(
+                            f"Failed to parse retry delay: {e2}. Using default {delay} seconds."
+                        )
                 logging.info(f"Retrying after {delay} seconds...")
                 time.sleep(delay)
                 continue
@@ -90,8 +89,10 @@ def recommend_papers(papers: list[Paper]) -> list[bool]:
 
 
 def translate_abstract(paper: Paper, wait=True) -> str:
-    prompt = (f"以下を日本語に翻訳してください。翻訳結果のみを答えてください。\n"
-              f"---\n{paper.summary}\n---")
+    prompt = (
+        f"以下を日本語に翻訳してください。翻訳結果のみを答えてください。\n"
+        f"---\n{paper.summary}\n---"
+    )
     translated = ask_gemini(prompt, "gemini-2.0-flash")
     if wait:
         time.sleep(60)

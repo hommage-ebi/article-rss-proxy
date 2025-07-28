@@ -24,22 +24,25 @@ def generate_rss_file(pushing_papers: list[Paper], other_papers: list[Paper], xm
         fe.pubDate(p.updated)
         fe.description(
             (p.summary_ja if p.summary_ja else p.summary)
-            + "\n\n" + f'<img src="{p.fig1}"/>'
-            + "<p>" + ", ".join(p.authors) + "</p>"
-            + "<p>" + "\n".join(p.affils) + "</p>"
+            + "\n\n"
+            + f'<img src="{p.fig1}"/>'
+            + "<p>"
+            + ", ".join(p.authors)
+            + "</p>"
+            + "<p>"
+            + "\n".join(p.affils)
+            + "</p>"
         )
 
     if other_papers:
         fe = fg.add_entry()
         fe.id(f"other-papers-{TODAY_JST.strftime('%Y-%m-%d')}")
         fe.title(f"other arxiv papers {TODAY_JST.strftime('%Y-%m-%d')}")
-        fe.link(href=f"https://arxiv.org/{TODAY_JST.strftime('%Y-%m-%d')}") # dummy
+        fe.link(href=f"https://arxiv.org/{TODAY_JST.strftime('%Y-%m-%d')}")  # dummy
         fe.pubDate(TODAY_JST)
         fe.description(
             "<ol>\n<li>"
-            + "</li>\n<li>".join(
-                [f'<a href="{p.link}">{p.title}</a>' for p in other_papers]
-            )
+            + "</li>\n<li>".join([f'<a href="{p.link}">{p.title}</a>' for p in other_papers])
             + "</li>\n</ol>"
         )
 

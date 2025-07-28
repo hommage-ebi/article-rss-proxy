@@ -38,14 +38,18 @@ def main():
         else:
             other_papers.append(paper)
     logging.info(f"Recommend {len(recommended_papers)} papers.")
-    
-    abstract_jas = Parallel(n_jobs=MAX_NJOBS, backend="threading")(delayed(translate_abstract)(paper) for paper in recommended_papers)
+
+    abstract_jas = Parallel(n_jobs=MAX_NJOBS, backend="threading")(
+        delayed(translate_abstract)(paper) for paper in recommended_papers
+    )
     for abstract_ja, paper in zip(abstract_jas, recommended_papers):
         paper.summary_ja = abstract_ja
     translated_papers = recommended_papers
     logging.info("Translate Done.")
 
-    extracted_results = Parallel(n_jobs=MAX_NJOBS, backend="threading")(delayed(extract_fig1_authors_affils)(paper.id) for paper in translated_papers)
+    extracted_results = Parallel(n_jobs=MAX_NJOBS, backend="threading")(
+        delayed(extract_fig1_authors_affils)(paper.id) for paper in translated_papers
+    )
     for extracted, paper in zip(extracted_results, translated_papers):
         paper.fig1 = extracted["fig1"]
         paper.authors = extracted["authors"] if extracted["authors"] else paper.authors
@@ -53,7 +57,10 @@ def main():
     pushing_papers = translated_papers
     logging.info("Extract Done.")
 
-    generate_rss_file(pushing_papers, other_papers, Path(__file__).parent.parent/f"docs/index.xml")
+    generate_rss_file(
+        pushing_papers, other_papers, Path(__file__).parent.parent / "docs/index.xml"
+    )
+
 
 if __name__ == "__main__":
     main()
