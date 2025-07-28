@@ -4,16 +4,17 @@ from pathlib import Path
 from feedgen.feed import FeedGenerator
 
 from src.arxiv_fetcher import Paper
-from src.config import DEPLOY_URL, TODAY_JST
+from src.config import Config, TODAY_JST
 
 
 def generate_rss_file(pushing_papers: list[Paper], other_papers: list[Paper], xml_path: Path):
+    config = Config()
+
     fg = FeedGenerator()
-    fg.id(DEPLOY_URL)
-    fg.link(href=DEPLOY_URL, rel="alternate")
-    TITLE = "今日のarXiv-AI4Science" # TODO: arXiv以外も入るので適切な名前に変える
-    fg.title(TITLE)
-    fg.description(TITLE)
+    fg.id(config.deploy_url)
+    fg.link(href=config.deploy_url, rel="alternate")
+    fg.title(config.title)
+    fg.description(config.title)
     fg.language("ja")
 
     for p in pushing_papers:
