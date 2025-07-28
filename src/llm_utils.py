@@ -76,7 +76,7 @@ def recommend_batch(papers_batch: list[Paper], wait=True) -> list[bool]:
 
 def recommend_papers(papers: list[Paper]) -> list[bool]:
     n_batches = (len(papers) + BATCH_SIZE - 1) // BATCH_SIZE
-    n_jobs = min(MAX_NJOBS, n_batches)
+    n_jobs = max(1, min(MAX_NJOBS, n_batches))
 
     def _get_batch(idx):
         start = BATCH_SIZE * idx
