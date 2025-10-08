@@ -7,7 +7,7 @@ name = "article-rss-proxy"
 version = "0.1.0"
 description = "arXiv の論文を取得し、Gemini でフィルタリング・翻訳した上で RSS フィードとして配信するツール"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.12, <3.14"
 license = { text = "MIT" }
 authors = [
     { name = "オマージュ海老", email = "hommage.ebi@gmail.com" },
